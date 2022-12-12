@@ -9,7 +9,7 @@ Telegram::Bot::Client.run(t_a) do |bot|
     q = Exchange.new
     bot.listen do |message|
     #puts 'ok'
-=begin
+#=begin
         if message.nil?
             puts 'message nil'
             m = [nil]
@@ -70,6 +70,6 @@ Telegram::Bot::Client.run(t_a) do |bot|
             end
 
         
-=end
+#=end
     end #2nd do block
 end #1st do block
