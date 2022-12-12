@@ -8,8 +8,7 @@ t_a = ENV['TELEGRAM_API_KEY']
 Telegram::Bot::Client.run(t_a) do |bot|
     q = Exchange.new
     bot.listen do |message|
-    #puts 'ok'
-#=begin
+    begin
         if message.nil?
             puts 'message nil'
             m = [nil]
@@ -29,8 +28,6 @@ Telegram::Bot::Client.run(t_a) do |bot|
                     bot.api.send_message(chat_id: message.chat.id, text: "Wrong number of commands, #{message.from.first_name}")
                 end
             when '/sell'
-                #puts "ok"
-#=begin
                 if m.count == 2 then
                     res = q.sell(m[1])
                     if !res 
@@ -41,8 +38,6 @@ Telegram::Bot::Client.run(t_a) do |bot|
                 else
                     bot.api.send_message(chat_id: message.chat.id, text: "Wrong number of commands #{m.count} #{m}, #{message.from.first_name}")
                 end
-#=end
-
             when '/balance'
                 hash = q.get_balance
                 hash.each do |k,v|
@@ -69,7 +64,10 @@ Telegram::Bot::Client.run(t_a) do |bot|
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
             end
 
-        
-#=end
+        rescue
+            puts "error"
+            next
+        end
+
     end #2nd do block
 end #1st do block
