@@ -10,8 +10,9 @@ Telegram::Bot::Client.run(t_a) do |bot|
     bot.listen do |message|
     #puts 'ok'
 #=begin
-        m = message.text.split
-        
+
+        m = message.text&.split
+        m = [nil] if m.nil?
         case m[0]
             when '/buy'
                 if m.count == 3 then
@@ -59,6 +60,7 @@ Telegram::Bot::Client.run(t_a) do |bot|
 
             when '/help'
                 bot.api.send_message(chat_id: message.chat.id, text: "Binance US exchange \n Min order size if $10\n /buy ticker usd-amount\n /sell ticker :(SELLS IT ALL)\n /usd :SHOWS USD BALANCE\n /balance :SHOWS ALL BALANCES\n /deposit :LISTS DEPOSIT ADDRESSES")
+            
             else
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
             end
