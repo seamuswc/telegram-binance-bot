@@ -17,6 +17,8 @@ Telegrams docs Botfather
 
     apt install build-essentials  *Literally why Ubuntu is recommended*
 
+    git clone https://github.com/seamuswc/telegram-binance-bot.git
+
     touch .env
 
         TELEGRAM_API_KEY = 
