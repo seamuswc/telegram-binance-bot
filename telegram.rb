@@ -16,13 +16,14 @@ Telegram::Bot::Client.run(t_a) do |bot|
             m = message.text&.split
             m = [nil] if m.nil?
         end
+        m[0].downcase! unless m[0].nil?
         case m[0]
             when '/buy'
                 if m.count == 3 then
                     if q.purchase(m[1], m[2]) 
                         bot.api.send_message(chat_id: message.chat.id, text: "Bought $#{m[2]} of #{m[1]}")
                     else
-                        bot.api.send_message(chat_id: message.chat.id, text: "Purchase unsuccesul, no error checking yet")
+                        bot.api.send_message(chat_id: message.chat.id, text: "Purchase unsuccesul, no error checking yet, most common error is coin ticker not on binance exchange")
                     end
                 else
                     bot.api.send_message(chat_id: message.chat.id, text: "Wrong number of commands, #{message.from.first_name}")
@@ -31,7 +32,7 @@ Telegram::Bot::Client.run(t_a) do |bot|
                 if m.count == 2 then
                     res = q.sell(m[1])
                     if !res 
-                        bot.api.send_message(chat_id: message.chat.id, text: "selling unsuccesul, no error checking yet")
+                        bot.api.send_message(chat_id: message.chat.id, text: "selling unsuccesul, no error checking yet, most common error is sell order min is $10")
                     else
                         bot.api.send_message(chat_id: message.chat.id, text: "sold #{res[1]} #{m[1]}")
                     end
