@@ -1,6 +1,6 @@
 require 'sinatra'
 require_relative 'telegram.rb'
-require 'puma'
+#require 'puma'
 
 q = Telegram_.new
 q.start
