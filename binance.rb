@@ -34,7 +34,7 @@ class Exchange
         begin
             ticker.upcase!
             rounder = 2
-            rounder = 9 if ticker == "BTC" or "ETH"
+            rounder = 9 if (ticker == "BTC" or ticker == "ETH")
             quantity = get_balance(ticker)
             ticker = "#{ticker}USD"
             puts quantity

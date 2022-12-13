@@ -69,8 +69,10 @@ Telegram::Bot::Client.run(t_a) do |bot|
             when '/logs'
                 begin
                     bot.api.send_photo(chat_id: message.chat.id, document: Faraday::UploadIO.new('log.log'))
-                rescue
+                rescue=>e
                     logger.error("#{message.from.first_name} Log failed\n")
+                    logger.error("#{e} \nLog failed\n")
+
                 end
             else
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
