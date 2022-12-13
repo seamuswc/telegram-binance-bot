@@ -3,6 +3,7 @@ require_relative 'binance.rb'
 require 'dotenv/load'
 
 t_a = ENV['TELEGRAM_API_KEY']
+logger = Logger.new('log.log')
 
 
 Telegram::Bot::Client.run(t_a) do |bot|
@@ -22,6 +23,7 @@ Telegram::Bot::Client.run(t_a) do |bot|
                 if m.count == 3 then
                     if q.purchase(m[1], m[2]) 
                         bot.api.send_message(chat_id: message.chat.id, text: "Bought $#{m[2]} of #{m[1]}")
+                        logger.info("#{message.from.first_name} bought $#{m[2]} of #{m[1]}\n")
                     else
                         bot.api.send_message(chat_id: message.chat.id, text: "Purchase unsuccesul, no error checking yet, most common error is coin ticker not on binance exchange")
                     end
@@ -35,6 +37,8 @@ Telegram::Bot::Client.run(t_a) do |bot|
                         bot.api.send_message(chat_id: message.chat.id, text: "selling unsuccesul, no error checking yet, most common error is sell order min is $10")
                     else
                         bot.api.send_message(chat_id: message.chat.id, text: "sold #{res[1]} #{m[1]}")
+                        logger.info("#{message.from.first_name} sold $#{res[2]} of #{m[1]}\n")
+
                     end
                 else
                     bot.api.send_message(chat_id: message.chat.id, text: "Wrong number of commands #{m.count} #{m}, #{message.from.first_name}")
@@ -65,8 +69,9 @@ Telegram::Bot::Client.run(t_a) do |bot|
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
             end
 
-        rescue
+        rescue=>e
             puts "error"
+            logger.error("#e\n")
             next
         end
 
