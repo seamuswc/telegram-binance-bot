@@ -67,8 +67,11 @@ Telegram::Bot::Client.run(t_a) do |bot|
             when '/help'
                 bot.api.send_message(chat_id: message.chat.id, text: " Binance US exchange\n Min order size if $10\n /buy ticker usd-amount\n /sell ticker :SELLS IT ALL\n /usd :SHOWS USD BALANCE\n /balance :SHOWS ALL BALANCES\n /deposit :LISTS DEPOSIT ADDRESSES")
             when '/logs'
-                bot.api.send_photo(chat_id: message.chat.id, document: Faraday::UploadIO.new('log.log'))
-              end
+                begin
+                    bot.api.send_photo(chat_id: message.chat.id, document: Faraday::UploadIO.new('log.log'))
+                rescue
+                    logger.error("#{message.from.first_name} Log failed\n")
+                end
             else
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
             end
