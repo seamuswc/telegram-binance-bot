@@ -7,8 +7,8 @@ class Telegram_
 
     def initialize()
         @t_a = ENV['TELEGRAM_API_KEY']
-        trades = Logger.new('trades.log')
-        logger = Logger.new('logs.log')
+        @trades = Logger.new('trades.log')
+        @logger = Logger.new('logs.log')
     end
 
 
@@ -30,7 +30,7 @@ class Telegram_
                         if m.count == 3 then
                             if q.purchase(m[1], m[2]) 
                                 bot.api.send_message(chat_id: message.chat.id, text: "Bought $#{m[2]} of #{m[1]}")
-                                trades.info("#{message.from.first_name} bought $#{m[2]} of #{m[1]}\n")
+                                @trades.info("#{message.from.first_name} bought $#{m[2]} of #{m[1]}\n")
                             else
                                 bot.api.send_message(chat_id: message.chat.id, text: "Purchase unsuccesul, no error checking yet, most common error is coin ticker not on binance exchange")
                             end
@@ -44,7 +44,7 @@ class Telegram_
                                 bot.api.send_message(chat_id: message.chat.id, text: "selling unsuccesul, no error checking yet, most common error is sell order min is $10")
                             else
                                 bot.api.send_message(chat_id: message.chat.id, text: "sold #{res[1]} #{m[1]}")
-                                trades.info("#{message.from.first_name} sold #{res[1]} #{m[1]}\n")
+                                @trades.info("#{message.from.first_name} sold #{res[1]} #{m[1]}\n")
 
                             end
                         else
@@ -81,7 +81,7 @@ class Telegram_
 
                 rescue=>e
                     puts "error"
-                    logger.error("#{e}")
+                    @logger.error("#{e}")
                     next
                 end
 
