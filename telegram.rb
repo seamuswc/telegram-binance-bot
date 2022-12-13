@@ -1,6 +1,8 @@
 require 'telegram/bot'
 require_relative 'binance.rb'
 require 'dotenv/load'
+require "logger"
+
 
 t_a = ENV['TELEGRAM_API_KEY']
 logger = Logger.new('log.log')
