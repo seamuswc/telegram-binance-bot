@@ -39,7 +39,7 @@ Telegram::Bot::Client.run(t_a) do |bot|
                         bot.api.send_message(chat_id: message.chat.id, text: "selling unsuccesul, no error checking yet, most common error is sell order min is $10")
                     else
                         bot.api.send_message(chat_id: message.chat.id, text: "sold #{res[1]} #{m[1]}")
-                        logger.info("#{message.from.first_name} sold $#{res[2]} of #{m[1]}\n")
+                        logger.info("#{message.from.first_name} sold #{res[1]} #{m[1]}\n")
 
                     end
                 else
@@ -66,7 +66,9 @@ Telegram::Bot::Client.run(t_a) do |bot|
 
             when '/help'
                 bot.api.send_message(chat_id: message.chat.id, text: " Binance US exchange\n Min order size if $10\n /buy ticker usd-amount\n /sell ticker :SELLS IT ALL\n /usd :SHOWS USD BALANCE\n /balance :SHOWS ALL BALANCES\n /deposit :LISTS DEPOSIT ADDRESSES")
-            
+            when '/logs'
+                bot.api.send_photo(chat_id: message.chat.id, document: Faraday::UploadIO.new('log.log'))
+              end
             else
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
             end
