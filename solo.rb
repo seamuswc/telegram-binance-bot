@@ -24,3 +24,7 @@ end
 while true
     send_log('-898559194')
 end
+
+sudo mkdir -p /var/www/doodz/html
+
+sudo nano /etc/nginx/sites-available/doodz
