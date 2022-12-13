@@ -1,0 +1,8 @@
+E, [2022-12-13T10:10:14.818877 #12590] ERROR -- : James Log failed
+E, [2022-12-13T10:10:14.820434 #12590] ERROR -- : Telegram API has returned the error. (ok: "false", error_code: "400", description: "Bad Request: there is no photo in the request") 
+Log failed
+
+E, [2022-12-13T10:11:17.940220 #12657] ERROR -- : James Log failed
+E, [2022-12-13T10:11:17.940560 #12657] ERROR -- : Telegram API has returned the error. (ok: "false", error_code: "400", description: "Bad Request: failed to get HTTP URL content") 
+Log failed
+

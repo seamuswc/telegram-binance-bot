@@ -7,6 +7,18 @@ require "logger"
 t_a = ENV['TELEGRAM_API_KEY']
 logger = Logger.new('log.log')
 
+def send_log(chatid,file) {
+
+    url = "https://api.telegram.org/"
+    u = "#{url}/bot#{t_a}"
+    conn = Faraday.new(
+        url: u
+    )
+
+    conn.get('sendDocument', {chat_id: chatid, document: file })
+    
+}
+
 
 Telegram::Bot::Client.run(t_a) do |bot|
     q = Exchange.new
@@ -68,19 +80,21 @@ Telegram::Bot::Client.run(t_a) do |bot|
                 bot.api.send_message(chat_id: message.chat.id, text: " Binance US exchange\n Min order size if $10\n /buy ticker usd-amount\n /sell ticker :SELLS IT ALL\n /usd :SHOWS USD BALANCE\n /balance :SHOWS ALL BALANCES\n /deposit :LISTS DEPOSIT ADDRESSES")
             when '/logs'
                 begin
-                    bot.api.send_photo(chat_id: message.chat.id, document: Faraday::UploadIO.new('log.log', 'text/text'))
+                    send_log(message.chat.id, 'log.log')
                 rescue=>e
                     logger.error("#{message.from.first_name} Log failed")
                     logger.error("#{e} \nLog failed\n")
 
                 end
+            when '/chat_id'
+                bot.api.send_message(chat_id: message.chat.id, text: "#{message.chat.id}")
             else
                 bot.api.send_message(chat_id: message.chat.id, text: "Command not found")
             end
 
         rescue=>e
             puts "error"
-            logger.error("#e\n")
+            logger.error("#{e}\n")
             next
         end
 
