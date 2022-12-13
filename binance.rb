@@ -31,14 +31,15 @@ class Exchange
     end
 
     def sell(ticker) 
-        
         begin
             ticker.upcase!
+            rounder = 2
+            rounder = 9 if ticker == "BTC" or "ETH"
             quantity = get_balance(ticker)
             ticker = "#{ticker}USD"
             puts quantity
             puts ticker
-            quantity = (quantity.to_f).floor(2)
+            quantity = (quantity.to_f).floor(rounder)
 
             params = {
                 side: 'SELL',
