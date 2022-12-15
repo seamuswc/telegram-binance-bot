@@ -3,3 +3,4 @@ Gemfile.lock
 solo.rb
 trades.log
 logs.log
+passenger*
