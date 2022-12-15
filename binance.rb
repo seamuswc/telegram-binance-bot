@@ -37,8 +37,6 @@ class Exchange
             rounder = 9 if ( (ticker == "BTC") or (ticker == "ETH") )
             quantity = get_balance(ticker)
             ticker = "#{ticker}USD"
-            puts quantity
-            puts ticker
             quantity = (quantity.to_f).floor(rounder)
 
             params = {
@@ -102,3 +100,51 @@ class Exchange
     end
 
 end #class end
+
+
+#-----
+
+def custom_purchase(ticker, quantity) 
+    
+    begin
+        ticker.upcase!
+        params = {
+            side: 'BUY',
+            symbol: ticker,
+            type: 'MARKET',
+            quoteOrderQty: quantity
+        }
+
+        @client.new_order(**params)  
+        return true
+    rescue => e
+        return false
+    end
+    
+
+end
+
+def custom_sell(ticker) 
+    begin
+        ticker.upcase!
+        rounder = 2
+        rounder = 9 if ( (ticker.[0...3] == "BTC") or (ticker.[0...3] == "ETH") )
+        quantity = get_balance(ticker)
+        quantity = (quantity.to_f).floor(rounder)
+
+        params = {
+            side: 'SELL',
+            symbol: ticker,
+            type: 'MARKET',
+            quantity: quantity
+            }
+
+        @client.new_order(**params)  
+        return [true, quantity]
+    rescue => e
+        puts e
+        return false
+    end
+    
+
+end
