@@ -128,7 +128,7 @@ def custom_sell(ticker)
     begin
         ticker.upcase!
         rounder = 2
-        rounder = 9 if ( (ticker.[0...3] == "BTC") or (ticker.[0...3] == "ETH") )
+        rounder = 9 if ( (ticker[0...3] == "BTC") or (ticker[0...3] == "ETH") )
         quantity = get_balance(ticker)
         quantity = (quantity.to_f).floor(rounder)
 
