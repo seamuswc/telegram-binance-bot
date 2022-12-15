@@ -99,9 +99,6 @@ class Exchange
         end
     end
 
-end #class end
-
-
 #-----
 
 def custom_purchase(ticker, quantity) 
@@ -148,3 +145,6 @@ def custom_sell(ticker)
     
 
 end
+
+
+end #class end

@@ -94,7 +94,17 @@ class Telegram_
                         end
 
                     when '/help'
-                        bot.api.send_message(chat_id: message.chat.id, text: " Binance US exchange\n Min order size if $10\n /buy ticker usd-amount\n /sell ticker :SELLS IT ALL\n /usd :SHOWS USD BALANCE\n /balance :SHOWS ALL BALANCES\n /deposit :LISTS DEPOSIT ADDRESSES")
+                        text = "
+                        Binance US exchange\n 
+                        Min order size if $10\n 
+                        /buy ticker usd-amount\n 
+                        /sell ticker :SELLS IT ALL\n 
+                        /usd :SHOWS USD BALANCE\n 
+                        /balance :SHOWS ALL BALANCES\n 
+                        /deposit :LISTS DEPOSIT ADDRESSES\n
+                        /custombuy /customsell change the denomination from USD\n
+                        "
+                        bot.api.send_message(chat_id: message.chat.id, text: text)
                     when '/logs'
                         bot.api.send_message(chat_id: message.chat.id, text: "#{ENV['IP']}")
                     when '/chat_id'
