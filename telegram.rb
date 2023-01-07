@@ -8,8 +8,8 @@ class Telegram_
     def initialize()
         @t_a = ENV['TELEGRAM_API_KEY']
         if ENV['NGINX'] == 1
-            @trades = Logger.new('/var/www/html/trades.log')
-            @logger = Logger.new('/var/www/html/logs.log')
+            @trades = Logger.new('../var/www/html/trades.log')
+            @logger = Logger.new('../var/www/html/logs.log')
         else
             @trades = Logger.new('trades.log')
             @logger = Logger.new('logs.log')
