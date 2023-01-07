@@ -7,13 +7,14 @@ class Exchange
         b_p = ENV['BINANCE_PUBLIC']
         b_s = ENV['BINANCE_SECRET']
         @client = Binance::Spot.new(base_url: 'https://api.binance.us', key: b_p, secret: b_s)
+        @base = "USD"
     end
  
     def purchase(ticker, quantity) 
     
         begin
             ticker.upcase!
-            ticker = "#{ticker}USD"
+            ticker = "#{ticker}"+@base
             params = {
                 side: 'BUY',
                 symbol: ticker,
@@ -36,7 +37,7 @@ class Exchange
             rounder = 2
             rounder = 9 if ( (ticker == "BTC") or (ticker == "ETH") )
             quantity = get_balance(ticker)
-            ticker = "#{ticker}USD"
+            ticker = "#{ticker}"+@base
             quantity = (quantity.to_f).floor(rounder)
 
             params = {
@@ -78,12 +79,12 @@ class Exchange
             usd_balance = 0;
             balances =  @client.account[:balances]
             balances.each do |i|
-                if i[:asset] == "USD"
+                if i[:asset] == @base
                     usd_balance = i[:free]
                 end
             end
             #this is a string
-            return usd_balance
+            return [usd_balance, @base]
         rescue
             return false
         end
@@ -99,52 +100,17 @@ class Exchange
         end
     end
 
-#-----
-
-def custom_purchase(ticker, quantity) 
-    
-    begin
-        ticker.upcase!
-        params = {
-            side: 'BUY',
-            symbol: ticker,
-            type: 'MARKET',
-            quoteOrderQty: quantity
-        }
-
-        @client.new_order(**params)  
-        return true
-    rescue => e
-        return false
+    def change_base
+        if @base == "USD"
+            @base = "USDT"
+            return "USDT"
+        else
+            @base = "USD"
+            return "USD"
+        end
     end
-    
 
-end
 
-def custom_sell(ticker) 
-    begin
-        ticker.upcase!
-        rounder = 2
-        rounder = 9 if ( (ticker[0...3] == "BTC") or (ticker[0...3] == "ETH") )
-        quantity = get_balance(ticker)
-        quantity = (quantity.to_f).floor(rounder)
-
-        params = {
-            side: 'SELL',
-            symbol: ticker,
-            type: 'MARKET',
-            quantity: quantity
-            }
-
-        @client.new_order(**params)  
-        return [true, quantity]
-    rescue => e
-        puts e
-        return false
-    end
-    
-
-end
 
 
 end #class end

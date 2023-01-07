@@ -15,7 +15,7 @@ Telegrams docs Botfather
 
     apt install ruby
 
-    apt install build-essentials  *Literally why Ubuntu is recommended*
+    apt install build-essential  *Literally why Ubuntu is recommended*
     apt install ruby-dev
     
     git clone https://github.com/seamuswc/telegram-binance-bot.git
@@ -30,7 +30,7 @@ Telegrams docs Botfather
 
     bundle install
 
-    nohup ruby telegram.rb &
+    run a deamon on the script to keep it up
 
 ## License
 

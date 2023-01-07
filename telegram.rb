@@ -7,8 +7,13 @@ class Telegram_
 
     def initialize()
         @t_a = ENV['TELEGRAM_API_KEY']
-        @trades = Logger.new('trades.log')
-        @logger = Logger.new('logs.log')
+        if ENV['NGINX'] == 1
+            @trades = Logger.new('/var/www/html/trades.log')
+            @logger = Logger.new('/var/www/html/logs.log')
+        else
+            @trades = Logger.new('trades.log')
+            @logger = Logger.new('logs.log')
+        end
     end
 
 
@@ -80,8 +85,8 @@ class Telegram_
                             bot.api.send_message(chat_id: message.chat.id, text: "#{k} #{v}")
                         end
                     when '/usd'
-                        usd = q.get_usd
-                        bot.api.send_message(chat_id: message.chat.id, text: "#{usd} in account")
+                        res = q.get_usd
+                        bot.api.send_message(chat_id: message.chat.id, text: "#{res[0]} #{res[1]} in account")
 
                     when '/deposit'
                         res = q.deposit
@@ -92,17 +97,25 @@ class Telegram_
                             bot.api.send_message(chat_id: message.chat.id, text: "USDT account #{res[1][:address]}")
                             bot.api.send_message(chat_id: message.chat.id, text: "Sell into USD afterwards with /sell command. TEST FIRST!")
                         end
-
+                    when '/base'
+                        res = q.change_base
+                        bot.api.send_message(chat_id: message.chat.id, text: "Base currency is switched to #{res}")
                     when '/help'
-                        text = 
-                        "Binance US exchange\n 
-                        Min order size if $10\n 
-                        /buy ticker usd-amount\n 
-                        /sell ticker :SELLS IT ALL\n 
-                        /usd :SHOWS USD BALANCE\n 
-                        /balance :SHOWS ALL BALANCES\n 
-                        /deposit :LISTS DEPOSIT ADDRESSES\n
-                        /custombuy /customsell change the denomination from USD\n"
+                        a = []
+                        a << "Binance US exchange" 
+                        a << "Min order size if $10" 
+                        a << "/buy ticker usd-amount" 
+                        a << "/sell ticker :SELLS IT ALL" 
+                        a << "/usd :SHOWS USD BALANCE" 
+                        a << "/balance :SHOWS ALL BALANCES" 
+                        a << "/deposit :LISTS DEPOSIT ADDRESSES"
+                        a << "/base :switches base currency between USD and USDT"
+                        a << "/chat_id :gets the chat if of current group"
+                        a << "/logs :IP address with trade logs"
+
+                        text = ""
+                        a.each { |q| text << q + "\n"}
+
                         bot.api.send_message(chat_id: message.chat.id, text: text)
                     when '/logs'
                         bot.api.send_message(chat_id: message.chat.id, text: "#{ENV['IP']}")
