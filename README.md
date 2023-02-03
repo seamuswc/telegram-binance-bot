@@ -30,8 +30,15 @@ Telegrams docs Botfather
 
     bundle install
 
-    run a deamon on the script to keep it up
+    ruby index.rb
+
+## NOTE!!
+
+    This creates a FORK and then detaches it.
+    The process will run in the background until you manually kill the process using it's PID number, or shutdown the machine.
+
 
 ## License
+
 
 This project is licensed under the MIT License
